@@ -7,16 +7,12 @@ body:
     attributes:
       label: Problem / motivation
       description: What are you trying to do, and what's missing or awkward today?
-    validations:
-      required: true
 
   - type: textarea
     id: proposal
     attributes:
       label: Proposed solution
       description: What you'd like. Include the proposed syntax / API / CLI flag if relevant.
-    validations:
-      required: true
 
   - type: dropdown
     id: area

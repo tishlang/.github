@@ -33,8 +33,6 @@ body:
         - LSP / fmt / lint
         - Documentation
         - Other
-    validations:
-      required: true
 
   - type: dropdown
     id: targets_affected
@@ -53,8 +51,6 @@ body:
         - "Native — llvm backend"
         - "WASM / WASI"
         - "Build/compile fails (never produces output)"
-    validations:
-      required: true
 
   - type: dropdown
     id: targets_correct
@@ -79,8 +75,6 @@ body:
       label: Tish version
       description: Output of `tish -V`.
       placeholder: "tish 2.2.7"
-    validations:
-      required: true
 
   - type: dropdown
     id: install
@@ -88,18 +82,15 @@ body:
       label: How did you install Tish?
       options:
         - "npm — @tishlang/tish"
+        - "Homebrew — brew install"
         - "Built from source (put the commit SHA in 'Anything else')"
         - "Other (describe in 'Anything else')"
-    validations:
-      required: true
 
   - type: input
     id: platform
     attributes:
       label: OS / architecture
       placeholder: "macOS 15 arm64  ·  Ubuntu 24.04 x86_64  ·  Windows 11 x64"
-    validations:
-      required: true
 
   - type: textarea
     id: repro
@@ -113,8 +104,6 @@ body:
       placeholder: |
         // repro.tish
         fn main() { … }
-    validations:
-      required: true
 
   - type: textarea
     id: command
@@ -125,15 +114,11 @@ body:
         flags, --native-backend, etc.).
       render: shell
       placeholder: "tish build repro.tish --target native --native-backend cranelift --feature http"
-    validations:
-      required: true
 
   - type: textarea
     id: expected
     attributes:
       label: Expected behavior
-    validations:
-      required: true
 
   - type: textarea
     id: actual
@@ -145,8 +130,6 @@ body:
         spins (≈100% CPU → likely an infinite loop) or blocks (≈0% CPU → likely waiting on I/O), and
         roughly where (e.g. via markers / a debugger / `sample <pid>`).
       render: shell
-    validations:
-      required: true
 
   - type: textarea
     id: notes
