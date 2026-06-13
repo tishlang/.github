@@ -1,0 +1,40 @@
+name: 💡 Feature request / enhancement
+description: Propose a new feature or an improvement to Tish
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+      description: What are you trying to do, and what's missing or awkward today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What you'd like. Include the proposed syntax / API / CLI flag if relevant.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      multiple: true
+      options:
+        - Language / syntax
+        - Native codegen / backends
+        - VM runtime
+        - JS / WASM output
+        - Stdlib / builtins
+        - Build / packaging / distribution
+        - Tooling (LSP / fmt / lint)
+        - Documentation
+        - Other
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered

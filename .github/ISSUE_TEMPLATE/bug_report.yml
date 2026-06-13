@@ -1,0 +1,155 @@
+name: 🐞 Bug report
+description: Report a bug in the Tish compiler, runtime, or toolchain
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a Tish bug! The fields below are what make a bug **fixable fast**.
+
+        Two of them matter most for Tish specifically:
+        - **Which target/backend** is affected — most codegen bugs are backend-specific (e.g. the
+          `rust` native backend mis-compiles while the VM and JS targets are correct).
+        - **Which targets are *correct*** — saying "VM + JS fine, native `rust` wrong" instantly
+          localizes the defect.
+
+        And always a **minimal, runnable repro** + the **exact command**.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: The component you think is involved (best guess is fine).
+      options:
+        - Native codegen (--target native)
+        - VM runtime (tish run)
+        - JS output (--target js)
+        - WASM / WASI
+        - Parser / lexer
+        - Type checking / resolve
+        - Stdlib / builtins (tish:fs, tish:http, tish:tty, …)
+        - Build / packaging (cargo, protoc, workspace, features)
+        - Code signing / executable launch
+        - LSP / fmt / lint
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: targets_affected
+    attributes:
+      label: Where does it happen?
+      description: >
+        Tick every target where you see the bug. For `--target native`, the backend matters:
+        `rust` transpiles to Rust and compiles it; `cranelift`/`llvm` embed the bytecode and run it
+        through the VM runtime.
+      multiple: true
+      options:
+        - "VM — tish run"
+        - "JS — --target js"
+        - "Native — rust backend (default)"
+        - "Native — cranelift backend"
+        - "Native — llvm backend"
+        - "WASM / WASI"
+        - "Build/compile fails (never produces output)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: targets_correct
+    attributes:
+      label: Which targets behave CORRECTLY?
+      description: >
+        Crucial for codegen triage. If the VM/JS are right but a native backend is wrong, the bug is
+        in that backend's codegen — not in the bytecode, stdlib, or your program.
+      multiple: true
+      options:
+        - "VM — tish run"
+        - "JS — --target js"
+        - "Native — rust backend"
+        - "Native — cranelift backend"
+        - "Native — llvm backend"
+        - "WASM / WASI"
+        - "None / not sure"
+
+  - type: input
+    id: version
+    attributes:
+      label: Tish version
+      description: Output of `tish -V`.
+      placeholder: "tish 2.2.7"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: install
+    attributes:
+      label: How did you install Tish?
+      options:
+        - "npm — @tishlang/tish"
+        - "Built from source (put the commit SHA in 'Anything else')"
+        - "Other (describe in 'Anything else')"
+    validations:
+      required: true
+
+  - type: input
+    id: platform
+    attributes:
+      label: OS / architecture
+      placeholder: "macOS 15 arm64  ·  Ubuntu 24.04 x86_64  ·  Windows 11 x64"
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: >
+        The smallest `.tish` source that triggers it. If it ONLY reproduces inside a larger program
+        (some codegen/optimizer bugs are sensitive to module count / register pressure and won't
+        shrink to a single file), say so and link the project + the offending function.
+      render: javascript
+      placeholder: |
+        // repro.tish
+        fn main() { … }
+    validations:
+      required: true
+
+  - type: textarea
+    id: command
+    attributes:
+      label: Exact command + relevant env
+      description: >
+        The command you ran, plus any environment that matters (PROTOC, TISH_HTTP_WORKERS, feature
+        flags, --native-backend, etc.).
+      render: shell
+      placeholder: "tish build repro.tish --target native --native-backend cranelift --feature http"
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior + full output
+      description: >
+        Paste the complete output — error text, rustc/cargo errors, panics. For a crash/launch
+        failure include the **exit code** (137 = SIGKILL, 139 = SIGSEGV). For a hang, say whether it
+        spins (≈100% CPU → likely an infinite loop) or blocks (≈0% CPU → likely waiting on I/O), and
+        roughly where (e.g. via markers / a debugger / `sample <pid>`).
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
+      description: Workarounds you found, source commit SHA (if built from source), related issues, a reduced branch, etc.
